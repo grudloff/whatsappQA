@@ -67,25 +67,6 @@ if st.button("Ask", use_container_width=True):
     with st.spinner("Loading chat..."):
         chat = load_messages(whatsapp_client, chat_name, number_messages, start, end)
 
-#     prompt_template = ChatPromptTemplate(
-#         [
-#             SystemMessage(
-#                 '''
-#                 You are a helpful AI assistant that can answer factual questions about the contents
-#                 of a chat attached below. You can recieve a question in any language and should respond in that language.
-#                 Do not think about the problem, just provide an answer with the information you have.
-#                 '''),
-# #            SystemMessage("{chat}"),
-#             HumanMessage("{user_input}"),
-#             SystemMessage("""
-#                           chat:
-#                           {chat}
-#                           Answer:
-#                           """)
-#         ]
-#     )
-    # convert chat to string
-
     prompt = """
     Use the following context to answer the question. The context corresponds to a pandas dataframe for a chat.
     The columns are: sender (Sender name or number), datetime (in %Y-%m-%d %I:%M:%S format), message and has_emoji_text (That indicates wether the message has emojis)
