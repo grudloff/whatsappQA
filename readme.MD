@@ -44,7 +44,16 @@ Most models are not fine-tuned on a specific task or dataset, so their performan
     ```bash
     pip install -r requirements.txt
     ```
-1. Run the script with:  
+1. Install ollama
+    ```bash
+    curl -fsSL https://ollama.com/install.sh | sh
+    ```
+1. Download the language models using ollama.
+    ```bash
+    ollama pull ollama3.2:1b
+    ollama pull deepseek-r1:1.5b
+    ```
+1. Start the Streamlit app.
+    ```bash
     streamlit run main.py  
-3. Choose the chat, date range, number of messages, and model options on the sidebar.  
-4. Enter your question and click "Ask" to see the answer.
+    ```
