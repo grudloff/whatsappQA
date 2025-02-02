@@ -24,13 +24,19 @@ def load_names(_client: WhatsappClient):
     return names
 
 @st.cache_data(show_spinner=False)
-def load_messages(_client: WhatsappClient, query: str, max_messages: int, start_date: str,
-                  end_date: str):
+def load_messages(_client: WhatsappClient, query: str, max_messages: int, start_date: datetime,
+                  end_date: datetime) -> pd.DataFrame:
     messages: pd.DataFrame = _client.get_chat(query, max_messages)
-    # drop id
+
     messages = messages.drop(columns=["data-id"])
     messages = messages.drop(columns=["has_emoji_text"])
-    # messages = messages.query(f"datetime >= '{start_date}' and datetime <= '{end_date}'")
+
+    max_date = messages["datetime"].max()
+    min_date = messages["datetime"].min()
+    if start_date < min_date:
+        messages = messages[messages["datetime"] <= end_date]
+    elif end_date > max_date:
+        messages = messages[messages["datetime"] >= start_date]
     return messages
 
 @st.cache_resource
