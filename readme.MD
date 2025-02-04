@@ -30,6 +30,8 @@ Most models are not fine-tuned on a specific task or dataset, so their performan
 
 2. Use a reasoning agent workflow to answer questions about the chat messages. This can help the model reason about the chat context and provide more accurate answers.
 
+3. Add tool calling for the model, with tools such as searching for specific keywords, translation, etc.
+
 ## Usage
 1. Clone the repository.
     ```bash
