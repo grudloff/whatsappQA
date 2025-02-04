@@ -50,8 +50,9 @@ Most models are not fine-tuned on a specific task or dataset, so their performan
     ```
 1. Download the language models using ollama.
     ```bash
-    ollama pull ollama3.2:1b
-    ollama pull deepseek-r1:1.5b
+    ollama pull <model_name1>
+    ollama pull <model_name2>
+    ...
     ```
 1. Start the Streamlit app.
     ```bash
