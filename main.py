@@ -77,9 +77,12 @@ temp = st.sidebar.slider("Temperature", min_value=0.0, max_value=1.0, value=0.8)
 ollama_model = get_model(model_name, temp)
 
 # Main interface
-chat_name = st.selectbox("Select a chat", load_names(whatsapp_client))
-question = st.text_input("Enter a question")
-if st.button("Ask", use_container_width=True):
+with st.form(key='my_form'):
+    chat_name = st.selectbox("Select a chat", load_names(whatsapp_client), index=None)
+    question = st.text_input("Enter a question")
+    submit_button = st.form_submit_button(label='Ask', use_container_width=True)
+
+if submit_button and chat_name and question:
     with st.spinner("Loading chat..."):
         chat = load_messages(whatsapp_client, chat_name, number_messages, start, end)
 
