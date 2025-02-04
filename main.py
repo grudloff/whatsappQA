@@ -84,8 +84,11 @@ if st.button("Ask", use_container_width=True):
         chat = load_messages(whatsapp_client, chat_name, number_messages, start, end)
 
     prompt = """
-    Use the following context to answer the question. The context corresponds to a pandas dataframe for a chat.
-    The columns are: sender (Sender name or number), datetime (in %Y-%m-%d %I:%M:%S format), message and has_emoji_text (That indicates wether the message has emojis)
+    Use the following context to answer the question, you should respond in the question's
+    language. The context corresponds to a table with the messages of a WhatsApp chat.
+    The columns are: sender (Sender name or number),
+    datetime (in %Y-%m-%d %I:%M:%S format), message and has_emoji_text (That indicates wether the
+    message has emojis)
     Context: {context}
     Question: {question}
     Answer:"""
