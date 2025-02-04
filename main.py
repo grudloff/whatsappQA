@@ -98,3 +98,6 @@ if st.button("Ask", use_container_width=True):
         response = chain.invoke({"context": chat, "question": question})
 
     st.write(response)
+    # add chat in collapsible container
+    with st.expander("Show context"):
+        st.write(chat)
