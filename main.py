@@ -27,6 +27,8 @@ def load_names(_client: WhatsappClient):
 def load_messages(_client: WhatsappClient, query: str, max_messages: int, start_date: datetime,
                   end_date: datetime) -> pd.DataFrame:
     messages: pd.DataFrame = _client.get_chat(query, max_messages)
+    start_date = pd.Timestamp(start_date)
+    end_date = pd.Timestamp(end_date)
 
     messages = messages.drop(columns=["data-id"])
     messages = messages.drop(columns=["has_emoji_text"])
