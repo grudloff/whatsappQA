@@ -60,8 +60,13 @@ def get_available_models():
                          """)
     return available_models
 
+@st.cache_data
+def get_user_name(_client: WhatsappClient):
+    return _client.get_user_name()
+
 whatsapp_client = load_client()
 
+user_name = get_user_name(whatsapp_client)
 
 
 # Sidebar options
@@ -79,7 +84,7 @@ ollama_model = get_model(model_name, temp)
 # Main interface
 with st.form(key='my_form'):
     chat_name = st.selectbox("Select a chat", load_names(whatsapp_client), index=None)
-    question = st.text_input("Enter a question")
+    question = st.text_input("Enter a question", value=None)
     submit_button = st.form_submit_button(label='Ask', use_container_width=True)
 
 if submit_button and chat_name and question:
@@ -88,17 +93,20 @@ if submit_button and chat_name and question:
 
     prompt = """
     Use the following context to answer the question, you should respond in the question's
-    language. The context corresponds to a table with the messages of a WhatsApp chat.
-    The columns are: sender (Sender name or number),
-    datetime (in %Y-%m-%d %I:%M:%S format), message and has_emoji_text (That indicates wether the
-    message has emojis)
+    language. The context corresponds to a table with the messages of {user_name}'s WhatsApp
+    chat and {chat_name}. This can be another user or a group chat.
+    The columns of the context are: sender (Sender name or number),
+    datetime (in %Y-%m-%d %I:%M:%S format) and the message.
     Context: {context}
     Question: {question}
-    Answer:"""
+    You can think about the question, but when you have a final answer provided followed
+    by the word "Answer:".
+    """
     prompt = PromptTemplate.from_template(prompt)
     chain: Runnable = prompt | ollama_model | StrOutputParser()
     with st.spinner("Generating response..."):
-        response = chain.invoke({"context": chat, "question": question})
+        response = chain.invoke({"context": chat.to_string(index=False), "question": question, "user_name": user_name,
+                                 "chat_name": chat_name}) 
 
     st.write(response)
     # add chat in collapsible container
